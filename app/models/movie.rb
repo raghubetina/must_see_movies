@@ -1,4 +1,6 @@
 class Movie < ApplicationRecord
+  mount_uploader :cover, CoverUploader
+
   # Direct associations
 
   has_many   :roles,
