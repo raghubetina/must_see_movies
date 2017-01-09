@@ -3,12 +3,19 @@ class Movie < ApplicationRecord
 
   # Direct associations
 
+  has_many   :bookmarks,
+             :dependent => :destroy
+
   has_many   :roles,
              :dependent => :destroy
 
   belongs_to :director
 
   # Indirect associations
+
+  has_many   :users,
+             :through => :bookmarks,
+             :source => :user
 
   has_many   :cast,
              :through => :roles,

@@ -1,12 +1,13 @@
 class MoviesController < ApplicationController
   def index
     @q = Movie.ransack(params[:q])
-    @movies = @q.result(:distinct => true).includes(:director, :roles, :cast).page(params[:page]).per(10)
+    @movies = @q.result(:distinct => true).includes(:director, :roles, :bookmarks, :cast, :users).page(params[:page]).per(10)
 
     render("movies/index.html.erb")
   end
 
   def show
+    @bookmark = Bookmark.new
     @role = Role.new
     @movie = Movie.find(params[:id])
 
