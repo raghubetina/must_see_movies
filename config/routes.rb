@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   root :to => "directors#index"
   # Routes for the Bookmark resource:
@@ -17,6 +18,13 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_bookmark/:id", :controller => "bookmarks", :action => "destroy"
   #------------------------------
+
+  devise_for :users
+  # Routes for the User resource:
+  # READ
+  get "/users", :controller => "users", :action => "index"
+  get "/users/:id", :controller => "users", :action => "show"
+
 
   # Routes for the Actor resource:
   # CREATE

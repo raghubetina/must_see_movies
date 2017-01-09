@@ -9,30 +9,6 @@
       <p class="lead">Narrow results:</p>
 
         <div class="form-group">
-  <%= f.label :user_id, "User" %>
-  <div class="row">
-    <div class='col-md-6 mb-1'>
-      <%= f.text_field :user_id_gteq, :class => "form-control", :placeholder => "User greater than or equal to" %>
-    </div>
-    <div class='col-md-6'>
-      <%= f.text_field :user_id_lteq, :class => "form-control", :placeholder => "User less than or equal to" %>
-    </div>
-  </div>
-</div>
-
-<div class="form-group">
-  <%= f.label :movie_id, "Movie" %>
-  <div class="row">
-    <div class='col-md-6 mb-1'>
-      <%= f.text_field :movie_id_gteq, :class => "form-control", :placeholder => "Movie greater than or equal to" %>
-    </div>
-    <div class='col-md-6'>
-      <%= f.text_field :movie_id_lteq, :class => "form-control", :placeholder => "Movie less than or equal to" %>
-    </div>
-  </div>
-</div>
-
-<div class="form-group">
           <%= f.label :created_at, "Created at" %>
           <div class="row">
             <div class='col-md-6 mb-1'>
@@ -72,7 +48,15 @@
           });
       </script>
 
-        
+        <div class="form-group">
+      <%= f.label :movie_title_cont, "Movie title contains" %>
+      <%= f.text_field :movie_title_cont, :class => "form-control", :placeholder => "Movie title contains" %>
+    </div>
+
+<div class="form-group">
+      <%= f.label :user_email_cont, "User email contains" %>
+      <%= f.text_field :user_email_cont, :class => "form-control", :placeholder => "User email contains" %>
+    </div>
 
       <%= f.submit :class => "btn btn-primary btn-block mb-1" %>
 
@@ -95,12 +79,27 @@
 
       <% @bookmarks.each do |bookmark| %>
       <tr>
-        <td><%= bookmark.user_id %></td>
-        <td><%= bookmark.movie_id %></td>
+        <td>
+          <% if bookmark.user.present? %>
+            <a href="/users/<%= bookmark.user.id %>">
+              <%= bookmark.user.email %>
+            </a>
+          <% end %>
+        </td>
+        <td>
+          <% if bookmark.movie.present? %>
+            <a href="/movies/<%= bookmark.movie.id %>">
+              <%= bookmark.movie.title %>
+            </a>
+          <% end %>
+        </td>
         <td>
           <a href="/bookmarks/<%= bookmark.id %>" class="btn btn-primary">Show</a>
-          <a href="/bookmarks/<%= bookmark.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_bookmark/<%= bookmark.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          
+          <% if current_user == bookmark.user %>
+            <a href="/bookmarks/<%= bookmark.id %>/edit" class="btn btn-warning">Edit</a>
+            <a href="/delete_bookmark/<%= bookmark.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
         </td>
       </tr>
       <% end %>
